@@ -24,6 +24,23 @@ public class Character_controller : MonoBehaviour
     LineRenderer cable;
     public GameObject hookshot;
 
+    int goalsToGo;
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Crashed into something");
+        if(collision.gameObject.GetComponent<Goal>() != null)
+        {
+            Goal goal = collision.gameObject.GetComponent<Goal>();
+            goal.Goal_activated();
+            goalsToGo -= 1;
+            if(goalsToGo == 0)
+            {
+                Debug.Log("You Win!!");
+            }
+        }
+    }
+
     void Update()
     {
         if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
@@ -39,10 +56,11 @@ public class Character_controller : MonoBehaviour
             else if (!hookHit)
             {
                 target = findTarget();
-
-                this.transform.LookAt(target);
+                
+                
                 if (target != invalidVector)
                 {
+                    this.transform.LookAt(target);
                     if (Input.GetMouseButton(0))
                     {
                         pull = true;
@@ -70,6 +88,7 @@ public class Character_controller : MonoBehaviour
             rigidbody.freezeRotation = false;
             retractHook();
         }
+        
     }
     void Start()
     {
@@ -87,6 +106,7 @@ public class Character_controller : MonoBehaviour
             }
         }
         target = invalidVector;
+        goalsToGo = gameObject.GetComponents<Goal>().Length;
     }
 
     private Vector3 findTarget()
