@@ -9,7 +9,7 @@ enum size : short
 }
 public class Asteroid : MonoBehaviour
 {
-    public float mass_mod;
+    public float mass_mod = 100;
     // Start is called before the first frame update
     void Start()
     {
