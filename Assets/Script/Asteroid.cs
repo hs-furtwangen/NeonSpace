@@ -11,5 +11,6 @@ public class Asteroid : MonoBehaviour
         Rigidbody rigidbody = gameObject.GetComponent<Rigidbody>();
         float size_mean = (transform.localScale.x + transform.localScale.y + transform.localScale.z) / 3;
         rigidbody.mass = size_mean * mass_modifier;
+        this.enabled = false;
     }
 }

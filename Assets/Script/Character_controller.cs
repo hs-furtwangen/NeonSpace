@@ -4,48 +4,29 @@ using UnityEngine;
 
 public class Character_controller : MonoBehaviour
 {
+    public GameObject hook;
     public Rigidbody rigidbody;
-    public Camera camera;
-    public Vector3 camera_offset;
-    public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
-    public RotationAxes axes = RotationAxes.MouseXAndY;
-    public float sensitivityX = 15F;
-    public float sensitivityY = 15F;
-    public float minimumX = -360F;
-    public float maximumX = 360F;
-    public float minimumY = -360F;
-    public float maximumY = 360F;
+    public CameraController cameraControll;
     public float maxDistance = 250f;
-    
+
     public float acceleration = 1;
-    [SerializeField]
-    float rotationX = 0F;
-    [SerializeField]
-    float rotationY = 0F;
-    [SerializeField]
-    bool flipXAxis = false;
+
     [SerializeField]
     bool pull = false;
     [SerializeField]
     bool grab = false;
     [SerializeField]
     private float holdDistance = 0f;
-    private GameObject camera_pivot;
+    private bool hookHit;
 
     Vector3 invalidVector = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity);
     Vector3 target;
-
-    Quaternion originalRotation;
-
+    LineRenderer cable;
+    public GameObject hookshot;
 
     void Update()
     {
-        if (target != invalidVector)
-            //Debug.DrawLine(this.transform.position, target, Color.green);
-        rotatePlayer();
-
-        
-        if (Input.GetMouseButton(0) || Input.GetMouseButton(1) )
+        if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
         {
             if (grab)
             {
@@ -55,12 +36,13 @@ public class Character_controller : MonoBehaviour
             {
                 pullToTarget(target);
             }
-            else if (!pull || !grab)
-            { 
+            else if (!hookHit)
+            {
                 target = findTarget();
-                if(target != invalidVector)
+
+                this.transform.LookAt(target);
+                if (target != invalidVector)
                 {
-                    //Debug.Log(target);
                     if (Input.GetMouseButton(0))
                     {
                         pull = true;
@@ -83,34 +65,33 @@ public class Character_controller : MonoBehaviour
         {
             grab = false;
         }
-
-
+        if (!Input.GetMouseButton(0) && !Input.GetMouseButton(1))
+        {
+            retractHook();
+        }
     }
-
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        cable = gameObject.GetComponentInChildren<LineRenderer>();
+        cable.positionCount = 2;
+        cameraControll.registerCharacter(this);
         // Make the rigid body not change rotation
         rigidbody = gameObject.GetComponent<Rigidbody>();
-        camera = gameObject.GetComponentInChildren<Camera>();
-        camera.transform.position = camera_offset;
-        camera_pivot = new GameObject();
-        camera_pivot.name = "Camera Pivot";
-        camera_pivot.transform.SetParent(this.gameObject.transform);
-        camera_pivot.transform.position = this.transform.position;
-        camera_pivot.transform.rotation = this.transform.rotation;
-        camera.gameObject.transform.SetParent(camera_pivot.transform);
-        if (rigidbody)
-            rigidbody.freezeRotation = true;
-        originalRotation = transform.localRotation;
+        if (hook != null)
+        {
+            if(hookshot != null)
+            {
+                cable.SetPosition(0, hookshot.transform.position);
+                cable.SetPosition(1, hookshot.transform.position);
+            }
+        }
         target = invalidVector;
     }
 
     private Vector3 findTarget()
     {
         RaycastHit hit;
-        Physics.Raycast(camera.transform.position, this.transform.TransformDirection(Vector3.forward), out hit, maxDistance);
+        Physics.Raycast(cameraControll.transform.position, cameraControll.transform.TransformDirection(Vector3.forward), out hit, maxDistance);
         if (hit.collider != null)
         {
             
@@ -124,88 +105,93 @@ public class Character_controller : MonoBehaviour
 
     private void grabToTarget(Vector3 target)
     {
-        if(Vector3.Distance(this.rigidbody.position, target) < maxDistance)
-        { 
-            
-            Debug.DrawRay(this.transform.position, (target - this.rigidbody.position), Color.yellow, 1);
-            if (Vector3.Distance(this.rigidbody.position, target) >= holdDistance)
-            {
-                Vector3 oldPos = rigidbody.position;
-                Vector3 newPos = Vector3.Lerp(rigidbody.position, (target - Vector3.ClampMagnitude((target - this.rigidbody.position), holdDistance)), 1);
-                rigidbody.position = newPos;
-                Quaternion rotation = Quaternion.FromToRotation(oldPos, newPos*2);
-                Debug.DrawRay(rigidbody.position, rigidbody.velocity * maxDistance, Color.red, 1);
-                //rigidbody.velocity = Vector3.RotateTowards(rigidbody.velocity, newPos, angle, 1);
-                rigidbody.AddForce(-rigidbody.velocity * Time.deltaTime);
-                rigidbody.velocity = rotation * rigidbody.velocity;
-                Debug.DrawRay(rigidbody.position, rigidbody.velocity * maxDistance, Color.green, 1);
-            }
-        }
-
-
-    }
-
-    private void pullToTarget(Vector3 target)
-    {
-        Debug.DrawRay(this.transform.position, (target - this.rigidbody.position),Color.blue,1);
-        if(Vector3.Distance(this.rigidbody.position, target)<= maxDistance)
+        if(hook != null)
         {
-            rigidbody.AddForce((target - this.rigidbody.position)*(acceleration*Time.deltaTime));
+            shootHook();
+        }
+        else
+        {
+            hookHit = true;
+        }
+        if(hookHit)
+        {
+            if (Vector3.Distance(this.rigidbody.position, target) < maxDistance)
+            {
+                rigidbody.freezeRotation = true;
+                this.transform.LookAt(target);
+                Debug.DrawRay(this.transform.position, (target - this.rigidbody.position), Color.yellow, 1);
+                if (Vector3.Distance(this.rigidbody.position, target) >= holdDistance)
+                {
+                    Vector3 oldPos = rigidbody.position;
+                    Vector3 newPos = Vector3.Lerp(rigidbody.position, (target - Vector3.ClampMagnitude((target - this.rigidbody.position), holdDistance)), 1);
+                    rigidbody.position = newPos;
+                    Vector3 newDirection = newPos - oldPos;
+                    Quaternion rotation = Quaternion.FromToRotation(oldPos, newDirection);
+                    Debug.DrawRay(rigidbody.position, rigidbody.velocity * maxDistance, Color.red, 1);
+                    //rigidbody.velocity = Vector3.RotateTowards(rigidbody.velocity, newPos, angle, 1);
+                    //rigidbody.AddForce(-rigidbody.velocity * Time.deltaTime);
+                    rigidbody.velocity = rotation * rigidbody.velocity;
+                    Debug.DrawRay(rigidbody.position, rigidbody.velocity * maxDistance, Color.green, 1);
+                }
+            }
         }
         
     }
 
-    private void rotatePlayer()
+    private void pullToTarget(Vector3 target)
     {
-        if (axes == RotationAxes.MouseXAndY)
+        if (hook != null)
         {
-            // Read the mouse input axis
-            float mouseDeltaX = Input.GetAxis("Mouse X") * sensitivityX;
-            float mouseDeltaY = Input.GetAxis("Mouse Y") * sensitivityY;
-            rotationY += mouseDeltaY;
-            //Flip X-Rotation if the player is upside down
-            if (rotationY < -90 || rotationY > +90F)
-                flipXAxis = true;
-            else
-                flipXAxis = false;
-            if (flipXAxis == true)
-            {
-                rotationX -= mouseDeltaX;
-            }
-            else
-            {
-                rotationX += mouseDeltaX;
-            }
-
-            rotationX = ClampAngle(rotationX, minimumX, maximumX);
-            rotationY = ClampAngle(rotationY, minimumY, maximumY);
-
-            Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
-            Quaternion yQuaternion = Quaternion.AngleAxis(rotationY, -Vector3.right);
-            transform.localRotation = originalRotation * xQuaternion * yQuaternion;
-        }
-        else if (axes == RotationAxes.MouseX)
-        {
-            rotationX += Input.GetAxis("Mouse X") * sensitivityX;
-            rotationX = ClampAngle(rotationX, minimumX, maximumX);
-            Quaternion xQuaternion = Quaternion.AngleAxis(rotationX, Vector3.up);
-            transform.localRotation = originalRotation * xQuaternion;
+            shootHook();
         }
         else
         {
-            rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-            rotationY = ClampAngle(rotationY, minimumY, maximumY);
-            Quaternion yQuaternion = Quaternion.AngleAxis(-rotationY, Vector3.right);
-            transform.localRotation = originalRotation * yQuaternion;
+            hookHit = true;
+        }
+        if (hookHit)
+        {
+            Debug.DrawRay(this.transform.position, (target - this.rigidbody.position), Color.blue, 1);
+            if (Vector3.Distance(this.rigidbody.position, target) <= maxDistance)
+            {
+                rigidbody.freezeRotation = true;
+                this.transform.LookAt(target);
+                rigidbody.AddForce((target - this.rigidbody.position) * (acceleration * Time.deltaTime));
+            }
         }
     }
-    public static float ClampAngle(float angle, float min, float max)
+    private void shootHook()
     {
-        if (angle < -360F)
-             angle += 360F;
-        if (angle > 360F)
-             angle -= 360F;
-        return Mathf.Clamp(angle, min, max);
+        if(target != invalidVector)
+        {
+            cable.enabled = true;
+            hook.transform.position = Vector3.Lerp(hook.transform.position, target, Time.deltaTime * acceleration);
+            if (Vector3.Distance(hook.transform.position, target) < 0.1)
+            {
+                hook.transform.position = target;
+            }
+            cable.SetPosition(0, hookshot.transform.position);
+            cable.SetPosition(1, hook.transform.position);
+            if (hook.transform.position == target)
+            {
+                hookHit = true;
+            }
+        }
     }
+    private void retractHook()
+    {
+        cable.enabled = true;
+        hook.transform.position = Vector3.Lerp(hook.transform.position, hookshot.transform.position, Time.deltaTime * acceleration);
+        if (Vector3.Distance(hook.transform.position, hookshot.transform.position) < 0.1)
+        {
+            hook.transform.position = hookshot.transform.position;
+        }
+        cable.SetPosition(0, hookshot.transform.position);
+        cable.SetPosition(1, hook.transform.position);
+        if (hook.transform.position == hookshot.transform.position)
+        {
+            hookHit = false;
+        }
+    }
+    
 
 }
