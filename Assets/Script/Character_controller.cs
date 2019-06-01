@@ -67,6 +67,7 @@ public class Character_controller : MonoBehaviour
         }
         if (!Input.GetMouseButton(0) && !Input.GetMouseButton(1))
         {
+            rigidbody.freezeRotation = false;
             retractHook();
         }
     }
