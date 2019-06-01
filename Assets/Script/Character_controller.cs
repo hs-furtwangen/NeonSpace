@@ -14,47 +14,93 @@ public class Character_controller : MonoBehaviour
     public float minimumY = -360F;
     public float maximumY = 360F;
     public float grabDistance = 250f;
+    public float acceleration = 1;
     [SerializeField]
     float rotationX = 0F;
     [SerializeField]
     float rotationY = 0F;
     [SerializeField]
     bool flipXAxis = false;
-    Vector3 invalidVector = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity); 
+    [SerializeField]
+    bool pull = false;
+    [SerializeField]
+    bool grab = false;
+    
+    Vector3 invalidVector = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity);
+    Vector3 target;
+
     Quaternion originalRotation;
 
 
     void Update()
     {
+        if (target != invalidVector)
+            //Debug.DrawLine(this.transform.position, target, Color.green);
         rotatePlayer();
-        if (findTarget() != invalidVector)
+
+        
+        if (Input.GetMouseButton(0) || Input.GetMouseButton(1) )
         {
-            if (Input.GetMouseButtonDown(0))
+            if (grab)
             {
-                pullToTarget(findTarget());
+                
+                grabToTarget(target);
             }
-            else if (Input.GetMouseButtonDown(1))
+            else if (pull)
             {
-                grabToTarget(findTarget());
+                pullToTarget(target);
+            }
+            else if (!pull || !grab)
+            { 
+                target = findTarget();
+                if(target != invalidVector)
+                {
+                    //Debug.Log(target);
+                    if (Input.GetMouseButton(0))
+                    {
+                        pull = true;
+                        grab = false;
+                    }
+                    else if (Input.GetMouseButton(1))
+                    {
+                        grab = true;
+                        pull = false;
+                    }
+                }
             }
         }
+        else if (!Input.GetMouseButton(0))
+        {
+            pull = false;
+        }
+        else if (!Input.GetMouseButton(1))
+        {
+            grab = false;
+        }
+
+
     }
+
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         // Make the rigid body not change rotation
         rigidbody = gameObject.GetComponent<Rigidbody>();
         if (rigidbody)
             rigidbody.freezeRotation = true;
         originalRotation = transform.localRotation;
+        target = invalidVector;
     }
 
     private Vector3 findTarget()
     {
         RaycastHit hit;
-        Debug.DrawRay(this.transform.position, this.transform.TransformDirection(Vector3.forward)* grabDistance, Color.yellow);
-        if(Physics.Raycast(this.transform.position, this.transform.TransformDirection(Vector3.forward), out hit, grabDistance))
+        Physics.Raycast(this.transform.position, this.transform.TransformDirection(Vector3.forward), out hit, grabDistance);
+        if (hit.collider != null)
         {
-            return hit.transform.position;
+            
+            return hit.point;
         }
         else
         {
@@ -64,12 +110,16 @@ public class Character_controller : MonoBehaviour
 
     private void grabToTarget(Vector3 target)
     {
+        
+        Debug.DrawLine(this.transform.position, target, Color.red);
 
     }
 
     private void pullToTarget(Vector3 target)
     {
-
+        Debug.DrawRay(this.transform.position, Vector3.MoveTowards(this.transform.position, target, 250));
+        Debug.Log(target);
+        rigidbody.AddForce(target - this.rigidbody.position);
     }
 
     private void rotatePlayer()
