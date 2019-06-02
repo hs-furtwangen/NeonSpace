@@ -5,6 +5,7 @@ using UnityEngine;
 public class ButtonScript : MonoBehaviour {
 	public List<GameObject> canvasPanels = new List<GameObject>();
 	int howToState = 0;
+	bool isPause = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -13,7 +14,19 @@ public class ButtonScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(gameObject.name == "CanvasGame"){
+			if(Input.GetKeyDown(KeyCode.Escape)){
+				isPause = !isPause;
+				canvasPanels[1].SetActive(isPause);
+				
+				canvasPanels[0].SetActive(!isPause);
+			}
+			
+			/*if(Zustand == gewonnen){
+				canvasPanels[2].SetActive(true);
+			}
+			*/
+		}
 	}
 	
 	public void StartButton(){
@@ -55,6 +68,8 @@ public class ButtonScript : MonoBehaviour {
 		for(int i = 1; i<canvasPanels.Count; i++){
 			canvasPanels[i].SetActive(false);
 		}
+		
+		isPause = false;
 	}
 	
 	public void QuitButton(){
