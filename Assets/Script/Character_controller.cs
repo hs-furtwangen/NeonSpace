@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Character_controller : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Character_controller : MonoBehaviour
     public Rigidbody rigidbody;
     public CameraController cameraControll;
     public float maxDistance = 250f;
+    public Image charge_bar;
 
     public float acceleration = 1;
 
@@ -16,9 +18,12 @@ public class Character_controller : MonoBehaviour
     [SerializeField]
     bool grab = false;
     [SerializeField]
+    bool boost = false;
+    [SerializeField]
+    bool landed = false;
     private float holdDistance = 0f;
     private bool hookHit;
-
+    private float charge = 0;
     Vector3 invalidVector = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity);
     Vector3 target;
     LineRenderer cable;
@@ -28,7 +33,8 @@ public class Character_controller : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Crashed into something");
+        landed = true;
+        charge = 1;
         if(collision.gameObject.GetComponent<Goal>() != null)
         {
             Goal goal = collision.gameObject.GetComponent<Goal>();
@@ -40,9 +46,21 @@ public class Character_controller : MonoBehaviour
             }
         }
     }
-
+    private void OnCollisionExit(Collision collision)
+    {
+        landed = false;
+    }
     void Update()
     {
+       
+        if(Input.GetKeyDown("space"))
+        {
+            boost = true;
+        }
+        else if(Input.GetButtonUp("space"))
+        {
+            boost = false;
+        }
         if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
         {
             if (grab)
@@ -88,7 +106,11 @@ public class Character_controller : MonoBehaviour
             rigidbody.freezeRotation = false;
             retractHook();
         }
-        
+        if(boost)
+        {
+            boosting();
+        }
+        charge_bar.fillAmount = charge;
     }
     void Start()
     {
@@ -216,6 +238,20 @@ public class Character_controller : MonoBehaviour
             hookHit = false;
         }
     }
-    
+    private void boosting()
+    {
+        if(charge > 0)
+        {
+            charge -= Time.deltaTime * acceleration;
+            rigidbody.freezeRotation = true;
+            this.transform.LookAt(cameraControll.transform.TransformDirection(Vector3.forward));
+            if (landed == true)
+                Debug.DrawLine(this.rigidbody.position, this.transform.TransformDirection(Vector3.forward) - this.rigidbody.position, Color.cyan);
+            //rigidbody.AddForce(((this.transform.TransformDirection(Vector3.forward) - this.rigidbody.position) * (acceleration * 4 * Time.deltaTime)),ForceMode.Impulse);
+            else
+                Debug.DrawLine(this.rigidbody.position, this.transform.TransformDirection(Vector3.forward) - this.rigidbody.position, Color.cyan);
+            //rigidbody.AddForce(((this.transform.TransformDirection(Vector3.forward) - this.rigidbody.position) * (acceleration * Time.deltaTime)), ForceMode.Impulse);
+        }
+    }
 
 }
