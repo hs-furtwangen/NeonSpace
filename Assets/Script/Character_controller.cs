@@ -168,16 +168,17 @@ public class Character_controller : MonoBehaviour
                 Debug.DrawRay(this.transform.position, (target - this.rigidbody.position), Color.yellow, 1);
                 if (Vector3.Distance(this.rigidbody.position, target) >= holdDistance)
                 {
-                    Vector3 oldPos = rigidbody.position;
-                    Vector3 newPos = Vector3.Lerp(rigidbody.position, (target - Vector3.ClampMagnitude((target - this.rigidbody.position), holdDistance)), 1);
-                    rigidbody.position = newPos;
-                    Vector3 newDirection = newPos - oldPos;
-                    Quaternion rotation = Quaternion.FromToRotation(oldPos, newDirection);
-                    Debug.DrawRay(rigidbody.position, rigidbody.velocity * maxDistance, Color.red, 1);
+                    //Vector3 oldPos = rigidbody.position;
+                    //Vector3 newPos = Vector3.Lerp(rigidbody.position, (target - Vector3.ClampMagnitude((target - this.rigidbody.position), holdDistance)), 1);
+                    //rigidbody.position = newPos;
+                    //Vector3 newDirection = newPos - oldPos;
+                    //Quaternion rotation = Quaternion.FromToRotation(oldPos, newDirection);
+                    //Debug.DrawRay(rigidbody.position, rigidbody.velocity * maxDistance, Color.red, 1);
                     //rigidbody.velocity = Vector3.RotateTowards(rigidbody.velocity, newPos, angle, 1);
                     //rigidbody.AddForce(-rigidbody.velocity * Time.deltaTime);
-                    rigidbody.velocity = rotation * rigidbody.velocity;
-                    Debug.DrawRay(rigidbody.position, rigidbody.velocity * maxDistance, Color.green, 1);
+                    //rigidbody.velocity = rotation * rigidbody.velocity;
+                    //Debug.DrawRay(rigidbody.position, rigidbody.velocity * maxDistance, Color.green, 1);
+                    rigidbody.AddForce((target - this.rigidbody.position) * (acceleration * Time.deltaTime));
                 }
             }
         }
@@ -242,15 +243,22 @@ public class Character_controller : MonoBehaviour
     {
         if(charge > 0)
         {
-            charge -= Time.deltaTime * acceleration;
+            charge -= Time.deltaTime;
             rigidbody.freezeRotation = true;
             this.transform.LookAt(cameraControll.transform.TransformDirection(Vector3.forward));
             if (landed == true)
-                Debug.DrawLine(this.rigidbody.position, this.transform.TransformDirection(Vector3.forward) - this.rigidbody.position, Color.cyan);
-            //rigidbody.AddForce(((this.transform.TransformDirection(Vector3.forward) - this.rigidbody.position) * (acceleration * 4 * Time.deltaTime)),ForceMode.Impulse);
+            {
+                Debug.DrawLine(this.rigidbody.position, this.transform.TransformDirection(Vector3.forward), Color.cyan);
+                rigidbody.AddForce(cameraControll.transform.TransformDirection(Vector3.forward) * (acceleration * 2 * Time.deltaTime),ForceMode.Impulse);
+            }
+
             else
-                Debug.DrawLine(this.rigidbody.position, this.transform.TransformDirection(Vector3.forward) - this.rigidbody.position, Color.cyan);
-            //rigidbody.AddForce(((this.transform.TransformDirection(Vector3.forward) - this.rigidbody.position) * (acceleration * Time.deltaTime)), ForceMode.Impulse);
+            {
+                Debug.DrawLine(this.rigidbody.position, this.transform.TransformDirection(Vector3.forward), Color.cyan);
+                rigidbody.AddForce(cameraControll.transform.TransformDirection(Vector3.forward) * (acceleration * Time.deltaTime), ForceMode.VelocityChange);
+            }
+                
+            
         }
     }
 
