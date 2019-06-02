@@ -30,6 +30,7 @@ public class Character_controller : MonoBehaviour
     public GameObject hookshot;
 
     int goalsToGo;
+    bool frozen = true;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -52,7 +53,7 @@ public class Character_controller : MonoBehaviour
     }
     void Update()
     {
-       
+        if (!frozen) { 
         if(Input.GetKeyDown("space"))
         {
             boost = true;
@@ -111,6 +112,7 @@ public class Character_controller : MonoBehaviour
             boosting();
         }
         charge_bar.fillAmount = charge;
+        }
     }
     void Start()
     {
@@ -131,7 +133,21 @@ public class Character_controller : MonoBehaviour
             }
         }
         target = invalidVector;
-        
+       
+    }
+
+    public int getGoalsToGo()
+    {
+        return goalsToGo;
+    }
+    public void setFrozen(bool frozen)
+    {
+        this.frozen = frozen;
+        if(this.frozen)
+        {
+            rigidbody.freezeRotation = true;
+            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        }
     }
 
     private Vector3 findTarget()

@@ -56,10 +56,8 @@ public class CameraController : MonoBehaviour
         rotateCamera();
         if(character != null)
         {
-            Debug.Log("Follow yo ass");
             followPlayer();
-        }
-            
+        }  
     }
     public void registerCharacter(Character_controller character)
     {
