@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 1079859910515443499}
   - component: {fileID: 1079859910515443500}
   - component: {fileID: 1079859910515443501}
+  - component: {fileID: 9060650105971472643}
   m_Layer: 0
-  m_Name: Planet_3
+  m_Name: Planet_3_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,3 +124,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mass_mod: 1000
+--- !u!114 &9060650105971472643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9069550121177411302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 980a1ac5a14bbcd4c8a9fb776f829dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flag: {fileID: 4938157967021087765, guid: a609f88b86f9b0742a7b44448c73dfc1, type: 3}

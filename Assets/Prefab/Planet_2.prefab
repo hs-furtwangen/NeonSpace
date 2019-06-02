@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1823207359965938843}
   - component: {fileID: 3262718150829449693}
   - component: {fileID: 7889577926921873786}
+  - component: {fileID: 4450559598452585389}
   m_Layer: 0
   m_Name: Planet_2
   m_TagString: Untagged
@@ -60,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 670224309865224971, guid: daa2a618a1b39db489e1fdc2064a4adb, type: 3}
+  - {fileID: 2100000, guid: f30642c7704808049a23e92e4f0f4c77, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -123,3 +124,16 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: -3287309325615021214, guid: daa2a618a1b39db489e1fdc2064a4adb, type: 3}
+--- !u!114 &4450559598452585389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8441124518752460666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 980a1ac5a14bbcd4c8a9fb776f829dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flag: {fileID: 4938157967021087765, guid: a609f88b86f9b0742a7b44448c73dfc1, type: 3}
