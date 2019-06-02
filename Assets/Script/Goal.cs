@@ -13,7 +13,7 @@ public class Goal : MonoBehaviour
     public void Goal_activated()
     {
         Instantiate(flag, this.gameObject.transform);
-        Debug.Log("Triggered Goal");
+        //Debug.Log("Triggered Goal");
         Destroy(this);
     }
 }

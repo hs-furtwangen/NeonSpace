@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: 9069550121177411302, guid: 8b5945c47fe1bf541b2442839df1e271,
         type: 3}
       propertyPath: m_Name
-      value: Planet_3
+      value: Planet_3 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 9069550121177411302, guid: 8b5945c47fe1bf541b2442839df1e271,
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9069550121177411302, guid: 8b5945c47fe1bf541b2442839df1e271,
+        type: 3}
+      propertyPath: m_TagString
+      value: Planet
       objectReference: {fileID: 0}
     - target: {fileID: 5442276964980727029, guid: 8b5945c47fe1bf541b2442839df1e271,
         type: 3}
