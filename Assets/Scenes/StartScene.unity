@@ -594,6 +594,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 275527417}
+--- !u!1 &281677802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 281677803}
+  - component: {fileID: 281677805}
+  - component: {fileID: 281677804}
+  m_Layer: 0
+  m_Name: Lea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &281677803
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 281677802}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 84.39999}
+  m_LocalScale: {x: 1.000034, y: 1.000034, z: 1.000034}
+  m_Children: []
+  m_Father: {fileID: 1074582470}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 22.1, y: 4.5}
+  m_SizeDelta: {x: 57.16, y: 61.79}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &281677804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 281677802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: 5d553ec509584674ea2f664de643ab26, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &281677805
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 281677802}
 --- !u!1 &283478904
 GameObject:
   m_ObjectHideFlags: 0
@@ -2279,7 +2347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1074582470
 Transform:
   m_ObjectHideFlags: 0
@@ -2294,8 +2362,9 @@ Transform:
   - {fileID: 1873531572}
   - {fileID: 704797728}
   - {fileID: 1877248636}
-  - {fileID: 1514655492}
   - {fileID: 1620360972}
+  - {fileID: 1514655492}
+  - {fileID: 281677803}
   m_Father: {fileID: 1347816792}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3407,7 +3476,7 @@ GameObject:
   - component: {fileID: 1514655494}
   - component: {fileID: 1514655493}
   m_Layer: 0
-  m_Name: Music
+  m_Name: Tawan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3424,12 +3493,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1074582470}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 70, y: 4.4}
-  m_SizeDelta: {x: 44.57, y: 26.35}
+  m_AnchoredPosition: {x: 85.7, y: -10.7}
+  m_SizeDelta: {x: 49.34, y: 71.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1514655493
 MonoBehaviour:
@@ -3450,7 +3519,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 178955f790a1555478245ce68d190845, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bbd92aca43929f648a4368aaebc36d61, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3597,7 +3666,7 @@ GameObject:
   - component: {fileID: 1620360974}
   - component: {fileID: 1620360973}
   m_Layer: 0
-  m_Name: Programing
+  m_Name: Monika
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3614,12 +3683,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1074582470}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -61.8, y: 17.5}
-  m_SizeDelta: {x: 67.57, y: 35.83}
+  m_AnchoredPosition: {x: -81.9, y: 12.68}
+  m_SizeDelta: {x: 67.65, y: 61.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1620360973
 MonoBehaviour:
@@ -3640,7 +3709,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 298257a60bcad1f41a9beb184ca2f6c8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e7686320d6847324184c2bf2d32d3afe, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3834,7 +3903,7 @@ GameObject:
   - component: {fileID: 1877248638}
   - component: {fileID: 1877248637}
   m_Layer: 0
-  m_Name: Art
+  m_Name: Elke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3855,8 +3924,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.7, y: -30.3}
-  m_SizeDelta: {x: 63.57, y: 37.58}
+  m_AnchoredPosition: {x: -37.8, y: -23.6}
+  m_SizeDelta: {x: 52.78, y: 76.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1877248637
 MonoBehaviour:
@@ -3877,7 +3946,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a34a67f8e27fc6b4bb5ddb6cde61e689, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 98e8c229bf7b23a41a2d553894eefb0c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4479,7 +4548,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2027326848
 Transform:
   m_ObjectHideFlags: 0
