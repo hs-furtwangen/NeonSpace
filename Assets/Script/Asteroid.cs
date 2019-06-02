@@ -18,6 +18,6 @@ public class Asteroid : MonoBehaviour
         transform.localScale *= scale_multiplier;
         float size_mean = (transform.localScale.x + transform.localScale.y + transform.localScale.z) / 3;
         rigidbody.mass = size_mean * mass_mod;
-        this.enabled = false;
+        Destroy(this);
     }
 }

@@ -64,8 +64,8 @@ public class CameraController : MonoBehaviour
     public void registerCharacter(Character_controller character)
     {
         this.character = character;
-        camera_pivot.transform.position = character.transform.position;
-        camera_pivot.transform.rotation = character.transform.rotation;
+        //camera_pivot.transform.position = character.transform.position;
+        //camera_pivot.transform.rotation = character.transform.rotation;
         this.transform.position = camera_offset;
     }
     private void followPlayer()

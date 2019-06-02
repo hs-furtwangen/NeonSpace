@@ -92,6 +92,9 @@ public class Character_controller : MonoBehaviour
     }
     void Start()
     {
+        GameObject[] planets = GameObject.FindGameObjectsWithTag("Planet");
+        goalsToGo = planets.Length;
+        Debug.Log("THis is how many Planets you gotta visit: " + goalsToGo);
         cable = gameObject.GetComponentInChildren<LineRenderer>();
         cable.positionCount = 2;
         cameraControll.registerCharacter(this);
@@ -106,7 +109,7 @@ public class Character_controller : MonoBehaviour
             }
         }
         target = invalidVector;
-        goalsToGo = gameObject.GetComponents<Goal>().Length;
+        
     }
 
     private Vector3 findTarget()
