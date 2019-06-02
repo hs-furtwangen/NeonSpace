@@ -178,7 +178,7 @@ public class Character_controller : MonoBehaviour
                     //rigidbody.AddForce(-rigidbody.velocity * Time.deltaTime);
                     //rigidbody.velocity = rotation * rigidbody.velocity;
                     //Debug.DrawRay(rigidbody.position, rigidbody.velocity * maxDistance, Color.green, 1);
-                    rigidbody.AddForce((target - this.rigidbody.position) * (acceleration * Time.deltaTime));
+                    rigidbody.AddForce((target - this.rigidbody.position) * (acceleration * Time.deltaTime), ForceMode.VelocityChange);
                 }
             }
         }
