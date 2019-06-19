@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: New Material 1
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: -6465566751694194690, guid: 79b1c0e17942b2f4486f3a0f905f6bf2,
+    type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,6 +20,26 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_31CE3716:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_35E887E9:
+        m_Texture: {fileID: 2800000, guid: 667074717b806634183da245f35d52f2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_94F2C2F6:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_A48ACD47:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_BB770688:
+        m_Texture: {fileID: 2800000, guid: 7f7375a08b23df74d9f844d0a2ee9e27, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -56,6 +77,20 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Boolean_4DCB0D25: 0
+    - Boolean_8A3099B2: 0
+    - Boolean_8AB7DF71: 0
+    - Boolean_B6AA135: 0
+    - Vector1_522AA6A3: 0.448
+    - Vector1_6BA6D433: 0
+    - Vector1_6D410405: 0.29
+    - Vector1_8396CF79: 2.11
+    - Vector1_9C1B3378: 0.7
+    - Vector1_A0F57001: 0.32
+    - Vector1_A71DFCCD: 0.2
+    - Vector1_CC8ACA6E: 0.3
+    - Vector1_D69683B: 60
+    - Vector1_DD1D904C: 2
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -73,5 +108,8 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
+    - Color_3EA62187: {r: 1, g: 1, b: 1, a: 0}
+    - Color_996C68A3: {r: 0.266, g: 0.266, b: 0.266, a: 0}
+    - Vector3_32384FC9: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

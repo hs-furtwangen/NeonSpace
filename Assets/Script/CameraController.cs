@@ -25,10 +25,12 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     public Character_controller character;
     Quaternion originalRotation;
+    bool active;
 
     // Start is called before the first frame update
     void Start()
     {
+        active = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         camera = gameObject.GetComponent<Camera>();
@@ -53,11 +55,15 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rotateCamera();
-        if(character != null)
+        if(active)
         {
-            followPlayer();
-        }  
+            rotateCamera();
+            if (character != null)
+            {
+                followPlayer();
+            }
+        }
+ 
     }
     public void registerCharacter(Character_controller character)
     {
@@ -123,5 +129,19 @@ public class CameraController : MonoBehaviour
         if (angle > 360F)
             angle -= 360F;
         return Mathf.Clamp(angle, min, max);
+    }
+    public void toggleActive()
+    {
+        active = !active;
+        if(!active)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 }

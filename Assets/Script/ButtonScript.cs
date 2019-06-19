@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ButtonScript : MonoBehaviour {
 	public List<GameObject> canvasPanels = new List<GameObject>();
@@ -30,7 +31,7 @@ public class ButtonScript : MonoBehaviour {
 	}
 	
 	public void StartButton(){
-		//Starte Spiel
+        SceneManager.LoadScene(1);
 	}
 	
 	public void HowToButton(){
