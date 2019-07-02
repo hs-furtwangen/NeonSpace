@@ -10,22 +10,22 @@ PrefabInstance:
     - target: {fileID: 2360079674605001783, guid: c43b5784fce56cd4eaa4818bda3657a7,
         type: 3}
       propertyPath: m_Name
-      value: Planet_3
+      value: Planet_3 Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 1629166364866752036, guid: c43b5784fce56cd4eaa4818bda3657a7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.46
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1629166364866752036, guid: c43b5784fce56cd4eaa4818bda3657a7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 22.16358
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1629166364866752036, guid: c43b5784fce56cd4eaa4818bda3657a7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -24.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1629166364866752036, guid: c43b5784fce56cd4eaa4818bda3657a7,
         type: 3}

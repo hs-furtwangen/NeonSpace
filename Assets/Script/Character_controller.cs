@@ -24,10 +24,12 @@ public class Character_controller : MonoBehaviour
     private float holdDistance = 0f;
     private bool hookHit;
     private float charge = 0;
-    Vector3 invalidVector = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity);
+    Vector3 invalidVector = new Vector3(10000, 10000, 10000);
     Vector3 target;
     LineRenderer cable;
     public GameObject hookshot;
+	public Vector3 velocityBeforePause;
+	public Transform startposition;
 
     int goalsToGo;
     bool frozen = true;
@@ -39,18 +41,31 @@ public class Character_controller : MonoBehaviour
         if(collision.gameObject.GetComponent<Goal>() != null)
         {
             Goal goal = collision.gameObject.GetComponent<Goal>();
-            goal.Goal_activated();
-            goalsToGo -= 1;
+
+			if (!goal.isActivated) {
+				goal.Goal_activated();
+				goalsToGo -= 1;
+			}
+            
             if(goalsToGo == 0)
             {
                 Debug.Log("You Win!!");
             }
         }
     }
+
     private void OnCollisionExit(Collision collision)
     {
         landed = false;
     }
+
+	private void OnTriggerExit(Collider collision)
+	{
+		if (collision.gameObject.name == "Level") {
+			gameObject.transform.position = gameObject.transform.position * -1;
+		}
+	}
+
     void Update()
     {
         if (!frozen) { 
@@ -92,7 +107,9 @@ public class Character_controller : MonoBehaviour
                         pull = false;
                     }
                 }
+
             }
+				velocityBeforePause = rigidbody.velocity;
         }
         if (!Input.GetMouseButton(0))
         {
@@ -116,8 +133,7 @@ public class Character_controller : MonoBehaviour
     }
     void Start()
     {
-        GameObject[] planets = GameObject.FindGameObjectsWithTag("Planet");
-        goalsToGo = planets.Length;
+		CountGoals ();
         Debug.Log("THis is how many Planets you gotta visit: " + goalsToGo);
         cable = gameObject.GetComponentInChildren<LineRenderer>();
         cable.positionCount = 2;
@@ -133,8 +149,13 @@ public class Character_controller : MonoBehaviour
             }
         }
         target = invalidVector;
-       
+		//transform.position = startposition.position;
     }
+
+	public void CountGoals(){
+		GameObject[] planets = GameObject.FindGameObjectsWithTag("Planet");
+		goalsToGo = planets.Length;
+	}
 
     public int getGoalsToGo()
     {
@@ -143,11 +164,14 @@ public class Character_controller : MonoBehaviour
     public void setFrozen(bool frozen)
     {
         this.frozen = frozen;
-        if(this.frozen)
-        {
-            rigidbody.freezeRotation = true;
-            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-        }
+		if (this.frozen) {
+			rigidbody.freezeRotation = true;
+			rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+		} else {
+			rigidbody.freezeRotation = false;
+			rigidbody.constraints = RigidbodyConstraints.None;
+			rigidbody.velocity = velocityBeforePause;
+		}
     }
 
     private Vector3 findTarget()
@@ -220,6 +244,11 @@ public class Character_controller : MonoBehaviour
                 this.transform.LookAt(target);
                 rigidbody.AddForce((target - this.rigidbody.position) * (acceleration * Time.deltaTime));
             }
+
+			if (Vector3.Distance(this.rigidbody.position, target) <= 100)
+			{
+				rigidbody.velocity = rigidbody.velocity * 0.96f;
+			}
         }
     }
     private void shootHook()
@@ -227,33 +256,35 @@ public class Character_controller : MonoBehaviour
         if(target != invalidVector)
         {
             cable.enabled = true;
-            hook.transform.position = Vector3.Lerp(hook.transform.position, target, Time.deltaTime * acceleration);
+            hook.transform.position = Vector3.Lerp(hook.transform.position, target, Time.deltaTime * acceleration*2);
             if (Vector3.Distance(hook.transform.position, target) < 0.1)
             {
                 hook.transform.position = target;
+				hookHit = true;
             }
             cable.SetPosition(0, hookshot.transform.position);
             cable.SetPosition(1, hook.transform.position);
-            if (hook.transform.position == target)
+           /* if (hook.transform.position == target)
             {
                 hookHit = true;
-            }
+            }*/
         }
     }
     private void retractHook()
     {
         cable.enabled = true;
-        hook.transform.position = Vector3.Lerp(hook.transform.position, hookshot.transform.position, Time.deltaTime * acceleration);
+        hook.transform.position = Vector3.Lerp(hook.transform.position, hookshot.transform.position, Time.deltaTime * acceleration*2);
         if (Vector3.Distance(hook.transform.position, hookshot.transform.position) < 0.1)
         {
             hook.transform.position = hookshot.transform.position;
+			hookHit = false;
         }
         cable.SetPosition(0, hookshot.transform.position);
         cable.SetPosition(1, hook.transform.position);
-        if (hook.transform.position == hookshot.transform.position)
+        /*if (hook.transform.position == hookshot.transform.position)
         {
             hookHit = false;
-        }
+        }*/
     }
     private void boosting()
     {
